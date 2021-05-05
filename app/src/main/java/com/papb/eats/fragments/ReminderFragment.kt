@@ -1,11 +1,16 @@
 package com.papb.eats.fragments
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.papb.eats.R
+import kotlinx.android.synthetic.main.fragment_reminder.*
+import kotlinx.android.synthetic.main.set_alarm_dialog.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ReminderFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ReminderFragment : Fragment() {
+class ReminderFragment : DialogFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -28,6 +33,24 @@ class ReminderFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
+//        fab.setOnClickListener{
+//            val mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.set_alarm_dialog, null)
+//            val mBuilder = AlertDialog.Builder(activity!!)
+//                .setView(mDialogView)
+//                .setTitle("Reminder")
+//
+//            val mAlertDialog = mBuilder.show()
+//            mDialogView.save_button.setOnClickListener{
+//                mAlertDialog.dismiss()
+//                val name = mDialogView.alarm_name.text.toString()
+//            }
+//
+//            mDialogView.delete_button.setOnClickListener{
+//                mAlertDialog.dismiss()
+//            }
+//        }
     }
 
     override fun onCreateView(
@@ -36,6 +59,8 @@ class ReminderFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_reminder, container, false)
+//        var rootView: View = inflater.inflate(R.layout.set_alarm_dialog, container, false)
+//        return rootView
     }
 
     companion object {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ReminderFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -16,24 +17,37 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="false"
+            android:layout_alignParentTop="true"
             android:textSize="70sp"
             android:textColor="@color/colorPrimary"
             android:timeZone="GMT+0700"
             android:format24Hour="k:mm"
             android:format12Hour="@null"
             />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_add"
+        <TextClock
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_add_24"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_margin="16dp" />
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="false"
+            android:layout_below="@+id/clock"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimary"
+            android:timeZone="GMT+0700"
+            android:format24Hour="dd MMM, yyyy"
+            android:format12Hour="@null"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_below="@id/date"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
 
 
     </RelativeLayout>
