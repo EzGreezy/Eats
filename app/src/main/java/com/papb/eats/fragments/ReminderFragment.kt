@@ -35,22 +35,6 @@ class ReminderFragment : DialogFragment() {
         }
 
 
-//        fab.setOnClickListener{
-//            val mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.set_alarm_dialog, null)
-//            val mBuilder = AlertDialog.Builder(activity!!)
-//                .setView(mDialogView)
-//                .setTitle("Reminder")
-//
-//            val mAlertDialog = mBuilder.show()
-//            mDialogView.save_button.setOnClickListener{
-//                mAlertDialog.dismiss()
-//                val name = mDialogView.alarm_name.text.toString()
-//            }
-//
-//            mDialogView.delete_button.setOnClickListener{
-//                mAlertDialog.dismiss()
-//            }
-//        }
     }
 
     override fun onCreateView(

@@ -6,24 +6,64 @@
     android:orientation="vertical"
     android:padding="10dp"
     >
-    
+
+<!--    <TimePicker-->
+<!--        android:id="@+id/tp_time_picker"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:timePickerMode="spinner"/>-->
+<!--    <TextView-->
+<!--        android:id="@+id/tvTime"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:textSize="30sp"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        android:text="00:00"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        />-->
+<!--    <Button-->
+<!--        android:id="@+id/button_time"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Select Time"-->
+<!--        android:layout_toRightOf="@+id/tvTime"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginTop="10dp"/>-->
+
     <EditText
-        android:id="@+id/alarm_name"
+        android:id="@+id/et_select_time"
+        android:hint="@string/select_time"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        />
+
+    <EditText
+        android:id="@+id/et_alarm_name"
         android:hint="@string/remind_me_to_eat"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/et_select_time"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_below="@+id/alarm_name">
+        android:layout_below="@+id/et_alarm_name">
         <Button
-            android:id="@+id/delete_button"
+            android:id="@+id/btn_delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/alarm_name"
@@ -33,7 +73,7 @@
             android:layout_marginRight="20dp"
             />
         <Button
-            android:id="@+id/save_button"
+            android:id="@+id/btn_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/alarm_name"
