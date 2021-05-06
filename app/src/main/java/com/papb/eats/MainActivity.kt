@@ -32,10 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener{
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.set_alarm_dialog, null)
-            val mBuilder = AlertDialog.Builder(this)
+            val mBuilder = AlertDialog.Builder(this, R.style.DialogTheme)
                 .setView(mDialogView)
                 .setTitle("Reminder")
-
 
             val mAlertDialog = mBuilder.show()
             mDialogView.save_button.setOnClickListener{
