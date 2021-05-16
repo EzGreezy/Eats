@@ -1,6 +1,6 @@
 package com.papb.eats.model
 
-class Task {
+class Reminder {
     var title: String? = ""
     var time: String = ""
     var completed: Boolean = false
