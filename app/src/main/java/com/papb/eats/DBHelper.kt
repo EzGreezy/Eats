@@ -4,21 +4,21 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.papb.eats.model.Task
+import com.papb.eats.model.Reminder
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     companion object {
         val DATABASE_NAME = "Eats"
-        val TABLE_NAME = "task"
+        val TABLE_NAME = "reminder"
         val ID = "id"
         val TITLE = "title"
         val TIME = "time"
-        val ACTIVE = "isActive"
+        val COMPLETED = "isComplete"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE $TABLE_NAME ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $TITLE VARCHAR(64), $TIME VARCHAR(64), $ACTIVE BOOLEAN)")
+        db?.execSQL("CREATE TABLE $TABLE_NAME ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $TITLE VARCHAR(64), $TIME VARCHAR(64), $COMPLETED BOOLEAN)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -27,27 +27,45 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     //Insert data ke database
-    fun insertData(title: String, time: String, isActive: Boolean) {
+    fun insertData(title: String, time: String, isCompleted: Boolean) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(TITLE, title)
         contentValues.put(TIME, time)
-        contentValues.put(ACTIVE, isActive)
+        contentValues.put(COMPLETED, isCompleted)
         db.insert(TABLE_NAME, null, contentValues)
     }
 
-    //List task blm jadi masih nunggu Model
-//    fun listOfTask(): ArrayList<Task> {
-//        val db = this.writableDatabase
-//        val res = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
-//        val taskList = ArrayList<Task>()
-//        while (res.moveToNext()) {
-//            var Task = Task()
-//            Task.id = Integer.valueOf(res.getString(0)).toString()
-//            Task.title = res.getString(1)
-//            Task.time = res.getString(2)
-//
-//        }
-//    }
+    //Query list data
+    fun listOfReminder(): ArrayList<Reminder> {
+        val db = this.writableDatabase
+        val res = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+        val reminderList = ArrayList<Reminder>()
+        while (res.moveToNext()) {
+            var Reminder = Reminder()
+            Reminder.id = Integer.valueOf(res.getString(0)).toString()
+            Reminder.title = res.getString(1)
+            Reminder.time = res.getString(2)
+            reminderList.add(Reminder)
+        }
+        return reminderList
+    }
 
+    // Update data
+    fun updateData(id: String, title: String, time: String, isCompleted: Boolean) : Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, id)
+        contentValues.put(TITLE, title)
+        contentValues.put(TIME, time)
+        contentValues.put(COMPLETED, isCompleted)
+        db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
+        return true
+    }
+
+    // Delete data
+    fun deleteData(id: String) : Int {
+        val db = this.writableDatabase
+        return db.delete(TABLE_NAME, "ID = ?", arrayOf(id))
+    }
 }
