@@ -47,7 +47,7 @@
         />
 
     <EditText
-        android:id="@+id/et_alarm_name"
+        android:id="@+id/et_alarm_title"
         android:hint="@string/remind_me_to_eat"
         android:inputType="text"
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_below="@+id/et_alarm_name">
+        android:layout_below="@+id/et_alarm_title">
         <Button
             android:id="@+id/btn_delete_button"
             android:layout_width="wrap_content"

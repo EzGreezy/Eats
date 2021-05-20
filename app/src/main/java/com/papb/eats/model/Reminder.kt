@@ -1,6 +1,6 @@
 package com.papb.eats.model
 
-class Reminder {
+class Reminder(time: String, title: String) {
     var title: String? = ""
     var time: String = ""
     var completed: Boolean = false

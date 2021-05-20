@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.EditText
 import com.papb.eats.model.Reminder
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -37,12 +38,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     //Query list data
-    fun listOfReminder(): ArrayList<Reminder> {
+    fun listOfReminder(time: String, title: String): ArrayList<Reminder> {
         val db = this.writableDatabase
         val res = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
         val reminderList = ArrayList<Reminder>()
         while (res.moveToNext()) {
-            var Reminder = Reminder()
+            var Reminder = Reminder(time, title)
             Reminder.id = Integer.valueOf(res.getString(0)).toString()
             Reminder.title = res.getString(1)
             Reminder.time = res.getString(2)
