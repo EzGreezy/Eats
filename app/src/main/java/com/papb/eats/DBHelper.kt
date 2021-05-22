@@ -10,20 +10,27 @@ import com.papb.eats.model.Reminder
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     companion object {
-        val DATABASE_NAME = "Eats"
-        val TABLE_NAME = "reminder"
+        val DATABASE_NAME = "Eats.db"
+        val TABLE_NAME = "reminders"
         val ID = "id"
         val TITLE = "title"
         val TIME = "time"
         val COMPLETED = "isComplete"
     }
 
-    override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE $TABLE_NAME ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $TITLE VARCHAR(64), $TIME VARCHAR(64), $COMPLETED BOOLEAN)")
+    override fun onCreate(db: SQLiteDatabase) {
+        val CREATE_REMINDERS_TABLE = ("CREATE TABLE " + TABLE_NAME + " ("
+                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TITLE + " VARCHAR(64), "
+                + TIME + " VARCHAR(64), "
+                + COMPLETED + " BOOLEAN" + ")")
+//        db?.execSQL("CREATE TABLE $TABLE_NAME ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $TITLE VARCHAR(64), $TIME VARCHAR(64), $COMPLETED BOOLEAN);")
+        db.execSQL(CREATE_REMINDERS_TABLE)
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
+//        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME;")
         onCreate(db)
     }
 

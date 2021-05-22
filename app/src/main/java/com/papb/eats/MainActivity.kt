@@ -24,16 +24,18 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var dbHelper: DBHelper
+//    private lateinit var dbHelper: DBHelper
     private lateinit var recyclerView: RecyclerView
     private var adapter: ReminderAdapter2? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
 
-        initView()
-        initRecyclerView()
+
+//        initView()
+//        initRecyclerView()
 
         val reminderFragment = ReminderFragment()
         val settingsFragment = SetingsFragment()
@@ -69,10 +71,13 @@ class MainActivity : AppCompatActivity() {
 
             //fungsi button save&delete klo diklik
             btnSaveButton.setOnClickListener {
-//                val reminder = Reminder(time)
-//                reminder.title = etAlarmTitle.text.toString()
-//                reminder.time = etSelectTime.text.toString()
-                addReminder()
+                //pake ini aja ya pit, sudah bisa wkwkwk
+                val dbHelper = DBHelper(this)
+
+                val title = etAlarmTitle.text.toString()
+                val time = etSelectTime.text.toString()
+
+                dbHelper.insertData(title, time, false)
             }
             btnDeleteButton.setOnClickListener {
                 alertDialog.dismiss()
@@ -112,6 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addReminder(){
+        val dbHelper = DBHelper(this)
         val title= et_alarm_title.text.toString()
         val time= et_select_time.text.toString()
 
@@ -151,6 +157,8 @@ class MainActivity : AppCompatActivity() {
 
     //Buat nampilin list remindernya
     private fun refreshList() {
+        val dbHelper = DBHelper(this)
+
         val reminderList = dbHelper.listOfReminder(time = String(), title = String())
         Log.e ("pppp", "${reminderList.size}")
 
