@@ -68,5 +68,9 @@ class SetingsFragment : Fragment() {
         cv_lang.setOnClickListener {
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
+        cv_sound.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_SOUND_SETTINGS))
+        }
+
     }
 }

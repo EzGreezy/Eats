@@ -6,11 +6,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ReminderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg4" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/round"
+            />
         <TextClock
             android:id="@+id/clock"
             android:layout_width="wrap_content"
@@ -19,11 +29,13 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="false"
             android:layout_alignParentTop="true"
-            android:textSize="70sp"
-            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppinsbold"
+            android:textSize="60sp"
+            android:textColor="@color/white"
             android:timeZone="GMT+0700"
             android:format24Hour="k:mm"
             android:format12Hour="@null"
+            android:layout_marginTop="70dp"
             />
         <TextClock
             android:id="@+id/date"
@@ -33,11 +45,13 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="false"
             android:layout_below="@+id/clock"
-            android:textSize="30sp"
-            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppinsregular"
+            android:textSize="20sp"
+            android:textColor="@color/white"
             android:timeZone="GMT+0700"
             android:format24Hour="dd MMM, yyyy"
             android:format12Hour="@null"
+            android:layout_marginTop="-20dp"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -45,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
+            android:layout_marginTop="100dp"
             android:layout_below="@id/date"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 

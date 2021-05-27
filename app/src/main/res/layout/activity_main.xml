@@ -34,6 +34,8 @@
             android:layout_marginRight="16dp"
             app:itemIconTint="#fff"
             app:itemTextColor="#fff"
+            app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
+            app:itemTextAppearanceInactive="@style/BottomNavigationViewTextStyle"
             app:menu="@menu/nav_menu"/>
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -47,6 +49,5 @@
         app:layout_anchor="@id/bottom_app_bar"
         app:borderWidth="0dp"
         app:tint="@color/white" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

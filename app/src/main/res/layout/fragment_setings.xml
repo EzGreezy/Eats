@@ -4,9 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.SetingsFragment">
+    tools:context=".fragments.SetingsFragment"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg4" />
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Settings"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginHorizontal="22dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/settingsTitle"
+        app:cardCornerRadius="12dp"/>
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_lang"
         android:layout_width="match_parent"
@@ -17,7 +41,7 @@
         app:cardCornerRadius="12dp"
         app:cardBackgroundColor="@color/colorPrimary"
         app:contentPadding="0dp"
-
+        android:layout_below="@id/settingsTitle"
         >
         <RelativeLayout
             android:id="@+id/constraint"
@@ -30,6 +54,7 @@
                 android:id="@+id/tv_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
                 android:text="Language"
                 android:textColor="@color/white"
                 android:textSize="25sp"
@@ -39,7 +64,8 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_language"
-                android:text="Change the language based on your preferred choice"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Change the language"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 />
@@ -54,49 +80,60 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:id="@+id/card_view2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="86dp"-->
-<!--        android:layout_marginHorizontal="24dp"-->
-<!--        android:layout_marginVertical="8dp"-->
-<!--        android:layout_below="@+id/card_view"-->
-<!--        app:cardCornerRadius="12dp"-->
-<!--        app:cardBackgroundColor="@color/colorPrimary"-->
-<!--        app:contentPadding="0dp"-->
-<!--        >-->
-<!--        <RelativeLayout-->
-<!--            android:id="@+id/constraint2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:paddingVertical="8dp"-->
-<!--            android:paddingHorizontal="14dp">-->
-<!--            <TextView-->
-<!--                android:id="@+id/tv_language2"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Language"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="25sp"-->
-<!--                android:textStyle="bold"/>-->
-<!--            <TextView-->
-<!--                android:id="@+id/tv_language_details2"-->
-<!--                android:layout_width="250dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/tv_language2"-->
-<!--                android:text="Change the language based on your preferred choice"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="12sp"-->
-<!--                />-->
-<!--            <ImageView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="280dp"-->
-<!--                android:src="@drawable/ic_baseline_navigate_next_24"-->
-<!--                android:layout_centerVertical="true"-->
-<!--                />-->
-<!--        </RelativeLayout>-->
-<!--    </androidx.cardview.widget.CardView>-->
+<androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginHorizontal="22dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/cv_lang"
+        app:cardCornerRadius="12dp"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_sound"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:contentPadding="0dp"
+        android:layout_below="@id/cv_lang"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="14dp">
+            <TextView
+                android:id="@+id/tv_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:text="Notification Sound"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tv_sound_details"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_sound"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Configure the notification sound"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                />
+            <ImageView
+                android:id="@+id/iv_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:src="@drawable/ic_baseline_navigate_next_24"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
