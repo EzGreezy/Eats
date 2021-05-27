@@ -2,10 +2,13 @@ package com.papb.eats
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.EditText
+import com.papb.eats.adapter.RecyclerAdapter
 import com.papb.eats.model.Reminder
+import java.lang.Exception
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
@@ -17,6 +20,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val TIME = "time"
         val COMPLETED = "isComplete"
     }
+
 
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_REMINDERS_TABLE = ("CREATE TABLE " + TABLE_NAME + " ("
@@ -42,19 +46,23 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         contentValues.put(TIME, time)
         contentValues.put(COMPLETED, isCompleted)
         db.insert(TABLE_NAME, null, contentValues)
+        db.close()
     }
 
     //Query list data
-    fun listOfReminder(time: String, title: String): ArrayList<Reminder> {
+    fun listOfReminder(): ArrayList<Reminder> {
         val db = this.writableDatabase
         val res = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
         val reminderList = ArrayList<Reminder>()
-        while (res.moveToNext()) {
-            var Reminder = Reminder(time, title)
-            Reminder.id = Integer.valueOf(res.getString(0)).toString()
-            Reminder.title = res.getString(1)
-            Reminder.time = res.getString(2)
-            reminderList.add(Reminder)
+
+        if (res.moveToFirst()) {
+            do {
+                val reminder = Reminder()
+                reminder.id = res.getString(res.getColumnIndex("id").toInt())
+                reminder.time = res.getString(res.getColumnIndex("time"))
+                reminder.title = res.getString(res.getColumnIndex("title"))
+                reminderList.add(reminder)
+            } while (res.moveToNext())
         }
         return reminderList
     }
@@ -76,4 +84,38 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val db = this.writableDatabase
         return db.delete(TABLE_NAME, "ID = ?", arrayOf(id))
     }
+
+//    Gak jadi dipake, malah gabisa pake yang ini xixixi
+//    fun getAllData(): ArrayList<Reminder> {
+//        val reminderList: ArrayList<Reminder> = ArrayList()
+//        val SELECT_ALL = "SELECT * FROM $TABLE_NAME"
+//        val db = this.readableDatabase
+//
+//        val cursor: Cursor?
+//
+//        try {
+//            cursor = db.rawQuery(SELECT_ALL, null)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            db.execSQL(SELECT_ALL)
+//            return ArrayList()
+//        }
+//
+//        var id: String
+//        var title: String
+//        var time: String
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                id = cursor.getString(cursor.getColumnIndex("id"))
+//                title = cursor.getString(cursor.getColumnIndex("title"))
+//                time = cursor.getString(cursor.getColumnIndex("time"))
+//
+////                val reminder = Reminder(id, title, time)
+////                reminderList.add(reminder)
+//            } while (cursor.moveToNext())
+//        }
+//
+//        return reminderList
+//    }
 }

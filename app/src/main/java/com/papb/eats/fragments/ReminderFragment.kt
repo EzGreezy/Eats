@@ -2,13 +2,22 @@ package com.papb.eats.fragments
 
 import android.app.AlertDialog
 import android.content.Context
+import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.papb.eats.DBHelper
+import com.papb.eats.MainActivity
 import com.papb.eats.R
+import com.papb.eats.adapter.RecyclerAdapter
+import com.papb.eats.adapter.ReminderAdapter2
+import com.papb.eats.model.Reminder
 import kotlinx.android.synthetic.main.fragment_reminder.*
 import kotlinx.android.synthetic.main.set_alarm_dialog.view.*
 
@@ -16,6 +25,9 @@ import kotlinx.android.synthetic.main.set_alarm_dialog.view.*
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private lateinit var recyclerView: RecyclerView
+private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList())
 
 /**
  * A simple [Fragment] subclass.
@@ -33,6 +45,7 @@ class ReminderFragment : DialogFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
 
     }
 
@@ -65,4 +78,23 @@ class ReminderFragment : DialogFragment() {
                 }
             }
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        initRecyclerView()
+        adapter.notifyDataSetChanged()
+
+    }
+
+
+    public fun initRecyclerView(){
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = RecyclerAdapter((activity as MainActivity).getReminderList())
+        recyclerView.adapter = adapter
+    }
+
+
+
 }

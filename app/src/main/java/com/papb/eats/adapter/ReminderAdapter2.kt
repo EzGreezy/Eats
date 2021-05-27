@@ -11,7 +11,8 @@ import com.papb.eats.model.Reminder
 
 class ReminderAdapter2 : RecyclerView.Adapter<ReminderAdapter2.ItemViewHolder>() {
 
-    private lateinit var reminderList: ArrayList<Reminder>
+//    private lateinit var reminderList: ArrayList<Reminder>
+    private var reminderList: ArrayList<Reminder> = ArrayList()
 
     fun addReminders(reminders: ArrayList<Reminder> = ArrayList()) {
         this.reminderList = reminders
@@ -32,7 +33,7 @@ class ReminderAdapter2 : RecyclerView.Adapter<ReminderAdapter2.ItemViewHolder>()
         return reminderList.size
     }
 
-    class ItemViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(var view: View): RecyclerView.ViewHolder(view) {
         private var tvReminderTitle = view.findViewById<TextView>(R.id.tv_reminder_title)
         private var tvReminderTime = view.findViewById<TextView>(R.id.tv_reminder_time)
 //        private var switchOnOff = view.findViewById<Switch>(R.id.switch_reminder)

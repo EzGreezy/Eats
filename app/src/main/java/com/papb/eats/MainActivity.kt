@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.webkit.WebViewFragment
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.papb.eats.R.*
+import com.papb.eats.adapter.RecyclerAdapter
 import com.papb.eats.adapter.ReminderAdapter2
 import com.papb.eats.fragments.ReminderFragment
 import com.papb.eats.fragments.SetingsFragment
@@ -23,19 +25,23 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_setings.*
 import kotlinx.android.synthetic.main.set_alarm_dialog.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
 //    private lateinit var dbHelper: DBHelper
-    private lateinit var recyclerView: RecyclerView
-    private var adapter: ReminderAdapter2? = null
+//    private lateinit var recyclerView: RecyclerView
+//    private var adapter: ReminderAdapter2? = null
+    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
 
-//        initView()
+
 //        initRecyclerView()
+//        initView()
+        refreshList()
 
         val reminderFragment = ReminderFragment()
         val settingsFragment = SetingsFragment()
@@ -78,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
                 dbHelper.insertData(title, time, false)
                 alertDialog.dismiss()
-//                refreshList()
+                refreshList()
             }
             btnDeleteButton.setOnClickListener {
                 alertDialog.dismiss()
@@ -117,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
 //    private fun addReminder(){
 //        val dbHelper = DBHelper(this)
 //        val title= et_alarm_title.text.toString()
@@ -132,14 +139,16 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    private fun initRecyclerView(){
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = ReminderAdapter2()
-        recyclerView.adapter = adapter
-    }
-    private fun initView(){
-        recyclerView= findViewById(R.id.recyclerView)
-    }
+//    private fun initRecyclerView(){
+//        recyclerView= findViewById(R.id.recyclerView)
+//
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+//        adapter = ReminderAdapter2()
+//        recyclerView.adapter = adapter
+//    }
+//    private fun initView(){
+//        recyclerView= findViewById(R.id.recyclerView)
+//    }
 
     private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
@@ -155,14 +164,14 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     //Buat nampilin list remindernya
-    private fun refreshList() {
+    public fun refreshList() {
         val dbHelper = DBHelper(this)
 
-        val reminderList = dbHelper.listOfReminder(time = String(), title = String())
+        val reminderList = dbHelper.listOfReminder()
         Log.e ("pppp", "${reminderList.size}")
 
         //display data
-        adapter?.addReminders(reminderList)
+        adapter = RecyclerAdapter(reminderList)
     }
 
 
@@ -190,5 +199,11 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        })
 //    }
+
+    public fun getReminderList() : ArrayList<Reminder> {
+        val dbHelper = DBHelper(this)
+        val reminders = dbHelper.listOfReminder()
+        return reminders
+    }
 
 }
