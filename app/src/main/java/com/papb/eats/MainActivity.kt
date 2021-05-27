@@ -1,26 +1,28 @@
 package com.papb.eats
 
+//import com.papb.eats.adapter.ReminderAdapter
 import android.app.*
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.papb.eats.R.*
-//import com.papb.eats.adapter.ReminderAdapter
 import com.papb.eats.adapter.ReminderAdapter2
 import com.papb.eats.fragments.ReminderFragment
 import com.papb.eats.fragments.SetingsFragment
 import com.papb.eats.model.Reminder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_setings.*
 import kotlinx.android.synthetic.main.set_alarm_dialog.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,11 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private var adapter: ReminderAdapter2? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
-
 
 //        initView()
 //        initRecyclerView()
@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 //        val date = String.format("%02d/%02d/%04d", day, month, year)
-
 
         //fungsi fab klo diklik. pake yg ini ajah
         fab.setOnClickListener{
@@ -78,6 +77,8 @@ class MainActivity : AppCompatActivity() {
                 val time = etSelectTime.text.toString()
 
                 dbHelper.insertData(title, time, false)
+                alertDialog.dismiss()
+//                refreshList()
             }
             btnDeleteButton.setOnClickListener {
                 alertDialog.dismiss()
@@ -116,20 +117,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addReminder(){
-        val dbHelper = DBHelper(this)
-        val title= et_alarm_title.text.toString()
-        val time= et_select_time.text.toString()
-
-        if(title.isEmpty()){
-            et_alarm_title.error = getString(string.fill_title)
-        }else if(time.isEmpty()){
-            et_select_time.error = getString(string.select_time)
-        } else{
-            dbHelper.insertData(title, time, false)
-            refreshList()
-        }
-    }
+//    private fun addReminder(){
+//        val dbHelper = DBHelper(this)
+//        val title= et_alarm_title.text.toString()
+//        val time= et_select_time.text.toString()
+//
+//        if(title.isEmpty()){
+//            et_alarm_title.error = getString(string.fill_title)
+//        }else if(time.isEmpty()){
+//            et_select_time.error = getString(string.select_time)
+//        } else{
+//            dbHelper.insertData(title, time, false)
+//            refreshList()
+//        }
+//    }
 
     private fun initRecyclerView(){
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -139,7 +140,6 @@ class MainActivity : AppCompatActivity() {
     private fun initView(){
         recyclerView= findViewById(R.id.recyclerView)
     }
-
 
     private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
@@ -153,7 +153,6 @@ class MainActivity : AppCompatActivity() {
 //        recyclerView.adapter = reminderAdapter
 //        recyclerView.setNestedScrollingEnabled(false);
 //    }
-
 
     //Buat nampilin list remindernya
     private fun refreshList() {

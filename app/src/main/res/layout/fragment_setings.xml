@@ -1,21 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SetingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_lang"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="86dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:contentPadding="0dp"
+
+        >
+        <RelativeLayout
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Settings" />
+            android:layout_gravity="center"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="14dp">
+            <TextView
+                android:id="@+id/tv_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Language"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tv_language_details"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_language"
+                android:text="Change the language based on your preferred choice"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                />
+            <ImageView
+                android:id="@+id/iv_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:src="@drawable/ic_baseline_navigate_next_24"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/card_view2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="86dp"-->
+<!--        android:layout_marginHorizontal="24dp"-->
+<!--        android:layout_marginVertical="8dp"-->
+<!--        android:layout_below="@+id/card_view"-->
+<!--        app:cardCornerRadius="12dp"-->
+<!--        app:cardBackgroundColor="@color/colorPrimary"-->
+<!--        app:contentPadding="0dp"-->
+<!--        >-->
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/constraint2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:paddingVertical="8dp"-->
+<!--            android:paddingHorizontal="14dp">-->
+<!--            <TextView-->
+<!--                android:id="@+id/tv_language2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Language"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="25sp"-->
+<!--                android:textStyle="bold"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/tv_language_details2"-->
+<!--                android:layout_width="250dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/tv_language2"-->
+<!--                android:text="Change the language based on your preferred choice"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="12sp"-->
+<!--                />-->
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="280dp"-->
+<!--                android:src="@drawable/ic_baseline_navigate_next_24"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                />-->
+<!--        </RelativeLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
 
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>
