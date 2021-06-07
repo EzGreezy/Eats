@@ -27,7 +27,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TITLE + " VARCHAR(64), "
                 + TIME + " VARCHAR(64), "
-                + COMPLETED + " BOOLEAN" + ")")
+                + COMPLETED + " INTEGER" + ")")
 //        db?.execSQL("CREATE TABLE $TABLE_NAME ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $TITLE VARCHAR(64), $TIME VARCHAR(64), $COMPLETED BOOLEAN);")
         db.execSQL(CREATE_REMINDERS_TABLE)
     }
@@ -39,7 +39,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     //Insert data ke database
-    fun insertData(title: String, time: String, isCompleted: Boolean) {
+    fun insertData(title: String, time: String, isCompleted: Int) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(TITLE, title)
@@ -61,6 +61,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 reminder.id = res.getString(res.getColumnIndex("id").toInt())
                 reminder.time = res.getString(res.getColumnIndex("time"))
                 reminder.title = res.getString(res.getColumnIndex("title"))
+                reminder.completed = res.getInt(res.getColumnIndex("isComplete"))
                 reminderList.add(reminder)
             } while (res.moveToNext())
         }

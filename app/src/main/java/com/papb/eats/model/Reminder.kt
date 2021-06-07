@@ -1,9 +1,9 @@
 package com.papb.eats.model
 
 class Reminder() {
-    var title: String = "ayam"
+    var title: String = ""
     var time: String = ""
-    var completed: Boolean = false
+    var completed: Int = 0
     var id: String = ""
     var timeMillis: String = ""
 

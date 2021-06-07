@@ -2,6 +2,7 @@ package com.papb.eats.fragments
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
 import android.util.Log
@@ -46,7 +47,6 @@ class ReminderFragment : DialogFragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-
     }
 
     override fun onCreateView(
@@ -58,6 +58,8 @@ class ReminderFragment : DialogFragment() {
 //        var rootView: View = inflater.inflate(R.layout.set_alarm_dialog, container, false)
 //        return rootView
     }
+
+
 
     companion object {
         /**
@@ -83,10 +85,9 @@ class ReminderFragment : DialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         initRecyclerView()
-        adapter.notifyDataSetChanged()
+
 
     }
-
 
     public fun initRecyclerView(){
 

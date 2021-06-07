@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 //        initView()
         refreshList()
 
-        val reminderFragment = ReminderFragment()
+        var reminderFragment = ReminderFragment()
         val settingsFragment = SetingsFragment()
 
         //milih fragment apa yg jadi homepage
@@ -82,9 +82,10 @@ class MainActivity : AppCompatActivity() {
                 val title = etAlarmTitle.text.toString()
                 val time = etSelectTime.text.toString()
 
-                dbHelper.insertData(title, time, false)
+                dbHelper.insertData(title, time, 0)
                 alertDialog.dismiss()
-                refreshList()
+                supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
+
             }
             btnDeleteButton.setOnClickListener {
                 alertDialog.dismiss()
@@ -121,6 +122,8 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
     }
 
 
