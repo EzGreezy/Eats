@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/widget_margin"
+    android:theme="@style/ThemeOverlay.Eats.AppWidgetContainer">
+
+    <ImageView
+        android:id="@+id/logoWidget"
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/eats_logo_only"
+        android:layout_marginTop="8dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eats!"
+        android:textSize="24sp"
+        android:layout_toRightOf="@id/logoWidget"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWidget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_margin="16dp"
+        android:layout_below="@id/logoWidget"
+        />
+
+</RelativeLayout>
