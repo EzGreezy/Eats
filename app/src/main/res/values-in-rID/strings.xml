@@ -9,4 +9,7 @@
     <string name="select_time">Pilih waktu</string>
     <string name="fill_title">Isi judul pengingat</string>
     <string name="cancel">Batal</string>
+    <string name="confirmation">Apakah Anda yakin?</string>
+    <string name="no">Tidak</string>
+    <string name="yes">Ya</string>
 </resources>

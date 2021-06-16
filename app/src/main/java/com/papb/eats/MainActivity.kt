@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var dbHelper: DBHelper
 //    private lateinit var recyclerView: RecyclerView
 //    private var adapter: ReminderAdapter2? = null
-    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList())
+    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,7 +123,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
     }
 
 
@@ -174,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         Log.e ("pppp", "${reminderList.size}")
 
         //display data
-        adapter = RecyclerAdapter(reminderList)
+        adapter = RecyclerAdapter(reminderList) {}
     }
 
 

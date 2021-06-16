@@ -69,12 +69,21 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     // Update data
-    fun updateData(id: String, title: String, time: String, isCompleted: Boolean) : Boolean {
+    fun updateData(id: String, title: String, time: String, isCompleted: Int) : Boolean {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(ID, id)
         contentValues.put(TITLE, title)
         contentValues.put(TIME, time)
+        contentValues.put(COMPLETED, isCompleted)
+        db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
+        return true
+    }
+
+    // Completed update
+    fun updateComplete(id: String, isCompleted: Int) : Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
         contentValues.put(COMPLETED, isCompleted)
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
         return true
