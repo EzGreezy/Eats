@@ -34,11 +34,15 @@ class MainActivity : AppCompatActivity() {
 //    private var adapter: ReminderAdapter2? = null
     private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList()) {}
 
+    private val CHANNEL_ID = "Eats channel"
+    private val NOTIFICATION_ID = 123
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
 
 
+        createNotificationChannel()
 //        initRecyclerView()
 //        initView()
         refreshList()
@@ -122,6 +126,10 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+    }
+
+    private fun createNotificationChannel() {
 
     }
 
