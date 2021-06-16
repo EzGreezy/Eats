@@ -1,20 +1,14 @@
 package com.papb.eats.fragments
 
-import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.content.Context
-import android.content.Intent
-import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +17,8 @@ import com.papb.eats.DBHelper
 import com.papb.eats.MainActivity
 import com.papb.eats.R
 import com.papb.eats.adapter.RecyclerAdapter
-import com.papb.eats.adapter.ReminderAdapter2
-import com.papb.eats.model.Reminder
 import kotlinx.android.synthetic.main.fragment_reminder.*
-import kotlinx.android.synthetic.main.set_alarm_dialog.view.*
+import kotlinx.android.synthetic.main.item_reminder.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,7 +28,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private lateinit var recyclerView: RecyclerView
-private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList()) {}
+private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList(), listener = {}, completeListener = {})
 
 /**
  * A simple [Fragment] subclass.
@@ -99,7 +91,7 @@ class ReminderFragment : DialogFragment() {
     public fun initRecyclerView(){
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = RecyclerAdapter((activity as MainActivity).getReminderList()) { item ->
+        adapter = RecyclerAdapter((activity as MainActivity).getReminderList(), listener = { item ->
 //            Toast.makeText(activity, item.title, Toast.LENGTH_SHORT).show()
             var dialog = MaterialAlertDialogBuilder(activity as MainActivity, R.style.MaterialAlertDialog_Rounded)
             var view: View = layoutInflater.inflate(R.layout.set_alarm_dialog, null)
@@ -174,7 +166,17 @@ class ReminderFragment : DialogFragment() {
                 )
                 timePickerDialog.show()
             }
-        }
+        }, completeListener = { item->
+            val dbHelper = DBHelper(activity as MainActivity)
+            if (item.completed == 1) {
+                dbHelper.updateComplete(item.id, 0)
+            } else if (item.completed == 0) {
+                dbHelper.updateComplete(item.id, 1)
+            }
+            Handler().postDelayed({
+                fragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
+            }, 500)
+        })
         recyclerView.adapter = adapter
     }
 

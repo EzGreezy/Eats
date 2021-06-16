@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var dbHelper: DBHelper
 //    private lateinit var recyclerView: RecyclerView
 //    private var adapter: ReminderAdapter2? = null
-    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList()) {}
+    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList(), listener = {}, completeListener = {})
 
     private val CHANNEL_ID = "Eats channel"
     private val NOTIFICATION_ID = 123
@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity() {
         Log.e ("pppp", "${reminderList.size}")
 
         //display data
-        adapter = RecyclerAdapter(reminderList) {}
+        adapter = RecyclerAdapter(reminderList, listener = {}, completeListener = {})
     }
 
 
