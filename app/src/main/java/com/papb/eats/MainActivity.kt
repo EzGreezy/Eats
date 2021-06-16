@@ -2,28 +2,19 @@ package com.papb.eats
 
 //import com.papb.eats.adapter.ReminderAdapter
 import android.app.*
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.webkit.WebViewFragment
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.papb.eats.R.*
 import com.papb.eats.adapter.RecyclerAdapter
-import com.papb.eats.adapter.ReminderAdapter2
 import com.papb.eats.fragments.ReminderFragment
 import com.papb.eats.fragments.SetingsFragment
 import com.papb.eats.model.Reminder
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_setings.*
-import kotlinx.android.synthetic.main.set_alarm_dialog.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var dbHelper: DBHelper
 //    private lateinit var recyclerView: RecyclerView
 //    private var adapter: ReminderAdapter2? = null
-    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList()) {}
+    private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList(), listener = {}, completeListener = {})
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         Log.e ("pppp", "${reminderList.size}")
 
         //display data
-        adapter = RecyclerAdapter(reminderList) {}
+        adapter = RecyclerAdapter(reminderList, listener = {}, completeListener = {})
     }
 
 

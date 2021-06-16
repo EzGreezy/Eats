@@ -1,8 +1,9 @@
 package com.papb.eats.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.papb.eats.DBHelper
 import com.papb.eats.MainActivity
@@ -12,7 +13,8 @@ import kotlinx.android.synthetic.main.item_reminder.view.*
 
 class RecyclerAdapter(
     private val reminders: ArrayList<Reminder>,
-    private val listener: (Reminder) -> Unit
+    private val listener: (Reminder) -> Unit,
+    private val completeListener: (Reminder) -> Unit
 ) : RecyclerView.Adapter<ReminderHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ReminderHolder {
@@ -27,8 +29,8 @@ class RecyclerAdapter(
         val item = reminders[position]
         holder.bindItem(item)
         holder.itemView.setOnClickListener { listener(item) }
+        holder.reminderSwitch.setOnClickListener { completeListener(item) }
+        }
     }
 
-
-}
 
