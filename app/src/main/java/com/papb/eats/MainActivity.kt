@@ -2,7 +2,9 @@ package com.papb.eats
 
 //import com.papb.eats.adapter.ReminderAdapter
 import android.app.*
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -11,6 +13,8 @@ import android.webkit.WebViewFragment
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +28,7 @@ import com.papb.eats.model.Reminder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_setings.*
 import kotlinx.android.synthetic.main.set_alarm_dialog.*
+import java.nio.channels.Channel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -40,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
-
 
         createNotificationChannel()
 //        initRecyclerView()
@@ -86,10 +90,16 @@ class MainActivity : AppCompatActivity() {
                 val title = etAlarmTitle.text.toString()
                 val time = etSelectTime.text.toString()
 
-                dbHelper.insertData(title, time, 0)
-                alertDialog.dismiss()
-                supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
-
+                if(title.equals("")){
+                    etAlarmTitle.error = getString(R.string.fill_title)
+                }else if(time.equals("")){
+                   etSelectTime.error = getString(R.string.select_time)
+                }else{
+                    dbHelper.insertData(title, time, 0)
+                    sendNotification()
+                    alertDialog.dismiss()
+                    supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
+                }
             }
             btnDeleteButton.setOnClickListener {
                 alertDialog.dismiss()
@@ -130,6 +140,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "Eats Notification"
+            val descriptionText = getString(R.string.don_t_forget_to_eat)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name,importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun sendNotification(){
+        val intent = Intent(this,MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this,0,intent,0)
+
+        val builder = NotificationCompat.Builder(this,CHANNEL_ID)
+            .setSmallIcon(R.drawable.eats_logo_only)
+            .setContentTitle(getString(R.string.don_t_forget_to_eat))
+            .setContentText(getString(R.string.find_resto))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .addAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(NOTIFICATION_ID, builder.build())
+        }
+
 
     }
 

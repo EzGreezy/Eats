@@ -7,9 +7,12 @@
     <string name="reminder">Pengingat</string>
     <string name="settings">Pengaturan</string>
     <string name="select_time">Pilih waktu</string>
-    <string name="fill_title">Isi judul pengingat</string>
+    <string name="fill_title">Isi nama makanan</string>
     <string name="cancel">Batal</string>
     <string name="confirmation">Apakah Anda yakin?</string>
     <string name="no">Tidak</string>
     <string name="yes">Ya</string>
+    <string name="don_t_forget_to_eat">Jangan lupa makan ya :)</string>
+    <string name="find_resto">Mau cari resto atau order makanan sekarang?</string>
+    <string name="open_gmaps">Buka Google Maps</string>
 </resources>
