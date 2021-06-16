@@ -15,4 +15,9 @@
     <string name="don_t_forget_to_eat">Jangan lupa makan ya :)</string>
     <string name="find_resto">Mau cari resto atau order makanan sekarang?</string>
     <string name="open_gmaps">Buka Google Maps</string>
+    <string name="appwidget_text">contoh</string>
+    <string name="language">Bahasa</string>
+    <string name="change_the_language">Ganti bahasa</string>
+    <string name="notification_sound">Suara notifikasi</string>
+    <string name="configure_the_notification_sound">Ubah suara notifikasi</string>
 </resources>

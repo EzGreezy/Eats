@@ -17,5 +17,10 @@
     <string name="find_resto">Do you want to search restaurant or order food now?</string>
     <string name="open_gmaps">Open Google Maps</string>
     <string name="appwidget_text">example</string>
+    <string name="language">Language</string>
+    <string name="change_the_language">Change the language</string>
+    <string name="notification_sound">Notification Sound</string>
+    <string name="configure_the_notification_sound">Configure the notification sound</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

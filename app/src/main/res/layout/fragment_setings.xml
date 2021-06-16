@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
-        android:text="Settings"
+        android:text="@string/settings"
         android:textColor="@color/white"
         android:textSize="32dp"
         android:layout_marginTop="16dp"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsbold"
-                android:text="Language"
+                android:text="@string/language"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold"/>
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_language"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Change the language"
+                android:text="@string/change_the_language"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 />
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsbold"
-                android:text="Notification Sound"
+                android:text="@string/notification_sound"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold"/>
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_sound"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Configure the notification sound"
+                android:text="@string/configure_the_notification_sound"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 />
