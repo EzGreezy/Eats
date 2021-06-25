@@ -20,4 +20,6 @@
     <string name="change_the_language">Ganti bahasa</string>
     <string name="notification_sound">Suara notifikasi</string>
     <string name="configure_the_notification_sound">Ubah suara notifikasi</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="selfcook">Saya masak sendiri</string>
 </resources>

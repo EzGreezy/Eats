@@ -22,5 +22,6 @@
     <string name="notification_sound">Notification Sound</string>
     <string name="configure_the_notification_sound">Configure the notification sound</string>
     <string name="add_widget">Add widget</string>
+    <string name="selfcook">I\'ll cook myself</string>
 
 </resources>

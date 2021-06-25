@@ -26,6 +26,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(123,builder.build())
+
+        intent.apply {
+            val notificationId = getIntExtra("notificationId",0)
+
+            context.apply {
+                NotificationManagerCompat.from(this).cancel(notificationId)
+            }
+        }
     }
 
 }

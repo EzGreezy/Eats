@@ -4,6 +4,7 @@ package com.papb.eats
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -16,6 +17,10 @@ import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,6 +34,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_setings.*
 import kotlinx.android.synthetic.main.set_alarm_dialog.*
 import java.nio.channels.Channel
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -47,6 +54,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(layout.activity_main)
 
         createNotificationChannel()
+
+        val timeFormat = SimpleDateFormat("HH:mm")
+        val currentTime = timeFormat.format(Date())
+
+        val reminders = getReminderList()
+
+//        Toast.makeText(this, currentTime, Toast.LENGTH_SHORT).show()
+        for (item in reminders) {
+            if (item.time == currentTime) {
+                if (item.completed == 0) {
+                    Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
+                    sendNotification(item.title)
+                }
+            }
+        }
+
+
+
 //        initRecyclerView()
 //        initView()
         refreshList()
@@ -96,7 +121,6 @@ class MainActivity : AppCompatActivity() {
                    etSelectTime.error = getString(R.string.select_time)
                 }else{
                     dbHelper.insertData(title, time, 0)
-                    sendNotification()
                     alertDialog.dismiss()
                     supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
                 }
@@ -152,16 +176,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendNotification(){
+    private fun sendNotification(title: String){
         val intent = Intent(this,MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this,0,intent,0)
+//        val pendingIntent = PendingIntent.getActivity(this,0,intent,0)
+
+        val formatedTitle = title.replace(" ","+")
+        val gmmIntentUri = Uri.parse("geo:0,0?q="+formatedTitle)
+        val mapsIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapsIntent.setPackage("com.google.android.apps.maps")
+        val pendingIntent = PendingIntent.getActivity(this,0,mapsIntent,0)
 
         val builder = NotificationCompat.Builder(this,CHANNEL_ID)
             .setSmallIcon(R.drawable.eats_logo_only)
-            .setContentTitle(getString(R.string.don_t_forget_to_eat))
+            .setContentTitle(getString(R.string.don_t_forget_to_eat) + " " + title)
             .setContentText(getString(R.string.find_resto))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
+            .addAction(R.mipmap.ic_launcher, getString(string.selfcook), pendingIntent)
             .addAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
 
         with(NotificationManagerCompat.from(this)){
@@ -170,6 +201,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
 
 
 //    private fun addReminder(){

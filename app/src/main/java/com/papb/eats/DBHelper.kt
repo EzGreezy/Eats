@@ -95,37 +95,30 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return db.delete(TABLE_NAME, "ID = ?", arrayOf(id))
     }
 
-//    Gak jadi dipake, malah gabisa pake yang ini xixixi
-//    fun getAllData(): ArrayList<Reminder> {
-//        val reminderList: ArrayList<Reminder> = ArrayList()
-//        val SELECT_ALL = "SELECT * FROM $TABLE_NAME"
-//        val db = this.readableDatabase
-//
-//        val cursor: Cursor?
-//
-//        try {
-//            cursor = db.rawQuery(SELECT_ALL, null)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            db.execSQL(SELECT_ALL)
-//            return ArrayList()
-//        }
-//
-//        var id: String
-//        var title: String
-//        var time: String
-//
-//        if (cursor.moveToFirst()) {
-//            do {
-//                id = cursor.getString(cursor.getColumnIndex("id"))
-//                title = cursor.getString(cursor.getColumnIndex("title"))
-//                time = cursor.getString(cursor.getColumnIndex("time"))
-//
-////                val reminder = Reminder(id, title, time)
-////                reminderList.add(reminder)
-//            } while (cursor.moveToNext())
-//        }
-//
-//        return reminderList
-//    }
+    // Notif checker
+    fun notifCheck(time: String): Boolean {
+        val db = this.writableDatabase
+        val TIME_NOW = time
+        val res = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $TIME = '$TIME_NOW'", null)
+        res.close()
+        return res.columnCount > -1
+    }
+
+    // Notif query
+    fun notifData(time: String): Reminder {
+        val db = this.writableDatabase
+        val TIME_NOW = time
+        val res = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $TIME = '$TIME_NOW'", null)
+        val reminder = Reminder()
+        if (res.columnCount > 0) {
+            reminder.id = res.getString(res.getColumnIndex("id").toInt())
+            reminder.time = res.getString(res.getColumnIndex("time"))
+            reminder.title = res.getString(res.getColumnIndex("title"))
+            reminder.completed = res.getInt(res.getColumnIndex("isComplete"))
+        }
+
+        res.close()
+
+        return reminder
+    }
 }
