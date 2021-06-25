@@ -7,35 +7,24 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.webkit.WebViewFragment
-import android.widget.*
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.papb.eats.R.*
 import com.papb.eats.adapter.RecyclerAdapter
-import com.papb.eats.adapter.ReminderAdapter2
 import com.papb.eats.fragments.ReminderFragment
 import com.papb.eats.fragments.SetingsFragment
 import com.papb.eats.model.Reminder
+import com.papb.eats.notification.ReminderBroadcast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_setings.*
-import kotlinx.android.synthetic.main.set_alarm_dialog.*
-import java.nio.channels.Channel
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -168,7 +157,7 @@ class MainActivity : AppCompatActivity() {
             val name = "Eats Notification"
             val descriptionText = getString(R.string.don_t_forget_to_eat)
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(CHANNEL_ID, name,importance).apply {
+            val channel = NotificationChannel("CHANNEL_ID", name,importance).apply {
                 description = descriptionText
             }
             val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -177,29 +166,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendNotification(title: String){
-        val intent = Intent(this,MainActivity::class.java)
-//        val pendingIntent = PendingIntent.getActivity(this,0,intent,0)
+        val intent = Intent(this, ReminderBroadcast::class.java)
+//        val pendingIntent = PendingIntent.getBroadcast(this, code, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        //code gmaps
         val formatedTitle = title.replace(" ","+")
         val gmmIntentUri = Uri.parse("geo:0,0?q="+formatedTitle)
         val mapsIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapsIntent.setPackage("com.google.android.apps.maps")
-        val pendingIntent = PendingIntent.getActivity(this,0,mapsIntent,0)
+        val pendingMapsIntent = PendingIntent.getActivity(this,0,mapsIntent,PendingIntent.FLAG_CANCEL_CURRENT)
+
+        //code delete notif
+        val deleteIntent = Intent(this, ReminderBroadcast::class.java)
+        deleteIntent.apply {
+            action = "Delete"
+            putExtra("channelId","100")
+            putExtra("NOTIFICATION_ID", NOTIFICATION_ID)
+        }
+        val deletePendingIntent = PendingIntent.getBroadcast(this,0, deleteIntent, 0)
 
         val builder = NotificationCompat.Builder(this,CHANNEL_ID)
             .setSmallIcon(R.drawable.eats_logo_only)
-            .setContentTitle(getString(R.string.don_t_forget_to_eat) + " " + title)
+            .setContentTitle(getString(R.string.don_t_forget_to_eat2) + " " + title)
             .setContentText(getString(R.string.find_resto))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
-            .addAction(R.mipmap.ic_launcher, getString(string.selfcook), pendingIntent)
-            .addAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
+            .addAction(R.mipmap.ic_launcher, getString(string.selfcook), deletePendingIntent)
+            .addAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingMapsIntent)
 
         with(NotificationManagerCompat.from(this)){
             notify(NOTIFICATION_ID, builder.build())
         }
 
-
+//        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+//        if(reminder.timeMillis.toLong() >= System.currentTimeMillis()){
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, reminder.timeMillis.toLong(), pendingIntent)
+//        }
     }
 
 

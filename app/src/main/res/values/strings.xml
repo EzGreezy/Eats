@@ -14,6 +14,7 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="don_t_forget_to_eat">Don\'t forget to eat :)</string>
+    <string name="don_t_forget_to_eat2">Don\'t forget to eat</string>
     <string name="find_resto">Do you want to search restaurant or order food now?</string>
     <string name="open_gmaps">Open Google Maps</string>
     <string name="appwidget_text">example</string>
