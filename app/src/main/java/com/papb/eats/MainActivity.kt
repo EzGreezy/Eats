@@ -155,8 +155,8 @@ class MainActivity : AppCompatActivity() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val name = "Eats Notification"
-            val descriptionText = getString(R.string.don_t_forget_to_eat)
-            val importance = NotificationManager.IMPORTANCE_HIGH
+            val descriptionText = getString(R.string.don_t_forget_to_eat2)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("CHANNEL_ID", name,importance).apply {
                 description = descriptionText
             }
@@ -166,15 +166,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendNotification(title: String){
-        val intent = Intent(this, ReminderBroadcast::class.java)
+        val intent = Intent(this, ReminderBroadcast::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 //        val pendingIntent = PendingIntent.getBroadcast(this, code, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        //code gmaps
+        //code buka gmaps
         val formatedTitle = title.replace(" ","+")
         val gmmIntentUri = Uri.parse("geo:0,0?q="+formatedTitle)
         val mapsIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapsIntent.setPackage("com.google.android.apps.maps")
-        val pendingMapsIntent = PendingIntent.getActivity(this,0,mapsIntent,PendingIntent.FLAG_CANCEL_CURRENT)
+        val pendingMapsIntent = PendingIntent.getActivity(this,0, mapsIntent, 0)
 
         //code delete notif
         val deleteIntent = Intent(this, ReminderBroadcast::class.java)
@@ -189,12 +192,17 @@ class MainActivity : AppCompatActivity() {
             .setSmallIcon(R.drawable.eats_logo_only)
             .setContentTitle(getString(R.string.don_t_forget_to_eat2) + " " + title)
             .setContentText(getString(R.string.find_resto))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
             .addAction(R.mipmap.ic_launcher, getString(string.selfcook), deletePendingIntent)
             .addAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingMapsIntent)
+            .addInvisibleAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
+            .addInvisibleAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
+//            .setDeleteIntent()
+            .setAutoCancel(true)
 
         with(NotificationManagerCompat.from(this)){
+//            builder.setAutoCancel(true)
             notify(NOTIFICATION_ID, builder.build())
         }
 
