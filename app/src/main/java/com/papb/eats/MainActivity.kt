@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -30,13 +31,17 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-//    private lateinit var dbHelper: DBHelper
-//    private lateinit var recyclerView: RecyclerView
-//    private var adapter: ReminderAdapter2? = null
     private var adapter: RecyclerAdapter = RecyclerAdapter(ArrayList(), listener = {}, completeListener = {})
+
+    var reminderFragment = ReminderFragment()
+    val settingsFragment = SetingsFragment()
 
     private val CHANNEL_ID = "Eats channel"
     private val NOTIFICATION_ID = 123
+
+    var handler: Handler = Handler()
+    var runnable: Runnable? = null
+    var delay = 10000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,29 +49,10 @@ class MainActivity : AppCompatActivity() {
 
         createNotificationChannel()
 
-        val timeFormat = SimpleDateFormat("HH:mm")
-        val currentTime = timeFormat.format(Date())
+        startService(Intent(applicationContext,ReminderService::class.java))
 
-        val reminders = getReminderList()
-
-//        Toast.makeText(this, currentTime, Toast.LENGTH_SHORT).show()
-        for (item in reminders) {
-            if (item.time == currentTime) {
-                if (item.completed == 0) {
-                    Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
-                    sendNotification(item.title)
-                }
-            }
-        }
-
-
-
-//        initRecyclerView()
-//        initView()
         refreshList()
 
-        var reminderFragment = ReminderFragment()
-        val settingsFragment = SetingsFragment()
 
         //milih fragment apa yg jadi homepage
         makeCurrentFragment(reminderFragment)
@@ -110,6 +96,7 @@ class MainActivity : AppCompatActivity() {
                    etSelectTime.error = getString(R.string.select_time)
                 }else{
                     dbHelper.insertData(title, time, 0)
+
                     alertDialog.dismiss()
                     supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
                 }
@@ -152,6 +139,32 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        handler.postDelayed(Runnable {
+            handler.postDelayed(runnable!!, delay.toLong())
+
+            val timeFormat = SimpleDateFormat("HH:mm")
+            val currentTime = timeFormat.format(Date())
+
+            val reminders = getReminderList()
+
+            val dbHelper = DBHelper(this)
+
+
+            for (item in reminders) {
+                if (item.time == currentTime) {
+                    if (item.completed == 0) {
+                        sendNotification(item.title)
+                        dbHelper.updateComplete(item.id, 1)
+                        supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
+                    }
+                }
+            }
+
+        }.also { runnable = it }, delay.toLong())
+        super.onResume()
+    }
+
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val name = "Eats Notification"
@@ -165,7 +178,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendNotification(title: String){
+    public fun sendNotification(title: String): Notification? {
         val intent = Intent(this, ReminderBroadcast::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -173,8 +186,8 @@ class MainActivity : AppCompatActivity() {
 //        val pendingIntent = PendingIntent.getBroadcast(this, code, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         //code buka gmaps
-        val formatedTitle = title.replace(" ","+")
-        val gmmIntentUri = Uri.parse("geo:0,0?q="+formatedTitle)
+        val formattedTitle = title.replace(" ","+")
+        val gmmIntentUri = Uri.parse("geo:0,0?q="+formattedTitle)
         val mapsIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapsIntent.setPackage("com.google.android.apps.maps")
         val pendingMapsIntent = PendingIntent.getActivity(this,0, mapsIntent, 0)
@@ -206,6 +219,8 @@ class MainActivity : AppCompatActivity() {
             notify(NOTIFICATION_ID, builder.build())
         }
 
+        return builder.build()
+
 //        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 //        if(reminder.timeMillis.toLong() >= System.currentTimeMillis()){
 //            alarmManager.set(AlarmManager.RTC_WAKEUP, reminder.timeMillis.toLong(), pendingIntent)
@@ -213,45 +228,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-//    private fun addReminder(){
-//        val dbHelper = DBHelper(this)
-//        val title= et_alarm_title.text.toString()
-//        val time= et_select_time.text.toString()
-//
-//        if(title.isEmpty()){
-//            et_alarm_title.error = getString(string.fill_title)
-//        }else if(time.isEmpty()){
-//            et_select_time.error = getString(string.select_time)
-//        } else{
-//            dbHelper.insertData(title, time, false)
-//            refreshList()
-//        }
-//    }
-
-//    private fun initRecyclerView(){
-//        recyclerView= findViewById(R.id.recyclerView)
-//
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//        adapter = ReminderAdapter2()
-//        recyclerView.adapter = adapter
-//    }
-//    private fun initView(){
-//        recyclerView= findViewById(R.id.recyclerView)
-//    }
-
     private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(id.fl_wrapper, fragment)
             commit()
         }
-
-//    private fun setReminderAdapter(recyclerView: RecyclerView?, list: java.util.ArrayList<Reminder>) {
-//        recyclerView!!.layoutManager = LinearLayoutManager(this)
-//        val reminderAdapter = ReminderAdapter2(list)
-//        recyclerView.adapter = reminderAdapter
-//        recyclerView.setNestedScrollingEnabled(false);
-//    }
 
     //Buat nampilin list remindernya
     public fun refreshList() {
@@ -265,35 +246,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //function onCreate baru buat alertdialog
-//    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-//        super.onCreate(savedInstanceState, persistentState)
-//        setContentView(layout.set_alarm_dialog)
-//
-//        timePicker = TimePickerHelper(this, true, true)
-//        button_time.setOnClickListener {
-//            showTimePickerDialog()
-//        }
-//
-//    }
-
-//    fun showTimePickerDialog() {
-//        val cal = Calendar.getInstance()
-//        val h = cal.get(Calendar.HOUR_OF_DAY)
-//        val m = cal.get(Calendar.MINUTE)
-//        timePicker.showDialog(h, m, object : TimePickerHelper.Callback {
-//            override fun onTimeSelected(hourOfDay: Int, minute: Int) {
-//                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "${hourOfDay}"
-//                val minuteStr = if (minute < 10) "0${minute}" else "${minute}"
-//                tvTime.text = "${hourStr}:${minuteStr}"
-//            }
-//        })
-//    }
-
     public fun getReminderList() : ArrayList<Reminder> {
         val dbHelper = DBHelper(this)
         val reminders = dbHelper.listOfReminder()
         return reminders
+    }
+
+    fun timeCalc(time: String): Long {
+        val hourToMinutes = time.substring(0,1).toLong()*60
+        val minutes = time.substring(3,4).toLong()
+        val totalMinutes = hourToMinutes+minutes
+
+        val timeInMillis = totalMinutes*60000
+        return timeInMillis
     }
 
 }
