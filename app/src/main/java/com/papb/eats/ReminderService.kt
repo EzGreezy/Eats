@@ -10,20 +10,22 @@ import java.util.*
 // Ini service app yang jalan di background
 class ReminderService: Service() {
 
+
     private val mainActivity = MainActivity()
     var handler: Handler = Handler()
     var runnable: Runnable? = null
     var delay = 10000
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-
+        super.onStartCommand(intent, flags, startId)
         callNotification()
+        return START_STICKY
 
-        return super.onStartCommand(intent, flags, startId)
     }
 
+
     override fun onBind(intent: Intent): IBinder? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
@@ -35,8 +37,13 @@ class ReminderService: Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        callNotification()
+
+        val broadcastIntent = Intent()
+            .setAction("restartservice")
+            .setClass(this, Restarter::class.java)
+        this.sendBroadcast(broadcastIntent)
     }
+
 
     private fun callNotification() {
         handler.postDelayed(Runnable {
@@ -45,9 +52,11 @@ class ReminderService: Service() {
             val timeFormat = SimpleDateFormat("HH:mm")
             val currentTime = timeFormat.format(Date())
 
-            val reminders = mainActivity.getReminderList()
+//            val reminders = mainActivity.getReminderList()
 
             val dbHelper = DBHelper(this)
+
+            val reminders = dbHelper.listOfReminder()
 
 
             for (item in reminders) {

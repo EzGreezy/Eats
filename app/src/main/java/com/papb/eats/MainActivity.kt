@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.papb.eats.R.*
@@ -39,19 +40,11 @@ class MainActivity : AppCompatActivity() {
     private val CHANNEL_ID = "Eats channel"
     private val NOTIFICATION_ID = 123
 
-    var handler: Handler = Handler()
-    var runnable: Runnable? = null
-    var delay = 10000
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
 
         createNotificationChannel()
-
-        startService(Intent(applicationContext,ReminderService::class.java))
-
-        refreshList()
 
 
         //milih fragment apa yg jadi homepage
@@ -140,6 +133,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+
+        var handler= Handler()
+        var runnable: Runnable? = null
+        var delay = 10000
+
         handler.postDelayed(Runnable {
             handler.postDelayed(runnable!!, delay.toLong())
 
@@ -156,13 +154,28 @@ class MainActivity : AppCompatActivity() {
                     if (item.completed == 0) {
                         sendNotification(item.title)
                         dbHelper.updateComplete(item.id, 1)
-                        supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commit()
+                        supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commitAllowingStateLoss()
                     }
                 }
             }
 
         }.also { runnable = it }, delay.toLong())
         super.onResume()
+    }
+
+    override fun onDestroy() {
+        val broadcastIntent = Intent()
+            .setAction("restartservice")
+            .setClass(this,ReminderService::class.java)
+        this.sendBroadcast(broadcastIntent)
+        super.onDestroy()
+    }
+
+    @Suppress("DEPRECATION")
+    fun <T> Context.isServiceRunning(service: Class<T>): Boolean {
+        return (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
+            .getRunningServices(Integer.MAX_VALUE)
+            .any { it -> it.service.className == service.name }
     }
 
     private fun createNotificationChannel() {

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.papb.eats">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,17 +32,17 @@
                 android:resource="@xml/reminder_widget_info" />
         </receiver>
 <!--        <receiver-->
-<!--            android:name=".Autostart"-->
+<!--            android:name=".Restarter"-->
 <!--            android:enabled="true"-->
 <!--            android:exported="true">-->
 <!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+<!--                <action android:name="restartservice" />-->
 <!--            </intent-filter>-->
 <!--        </receiver>-->
 <!--        <service-->
 <!--            android:name=".ReminderService"-->
 <!--            android:enabled="true"-->
-<!--            android:exported="true" />-->
+<!--            android:stopWithTask="false"/>-->
 
         <activity android:name=".MainActivity" />
         <activity
