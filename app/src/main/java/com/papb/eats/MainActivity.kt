@@ -215,8 +215,8 @@ class MainActivity : AppCompatActivity() {
             .setContentIntent(pendingIntent)
             .addAction(R.mipmap.ic_launcher, getString(string.selfcook), deletePendingIntent)
             .addAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingMapsIntent)
-            .addInvisibleAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
-            .addInvisibleAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
+//            .addInvisibleAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
+//            .addInvisibleAction(R.mipmap.ic_launcher, getString(R.string.open_gmaps), pendingIntent)
 //            .setDeleteIntent()
             .setAutoCancel(true)
 
