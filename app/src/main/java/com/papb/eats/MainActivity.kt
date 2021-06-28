@@ -24,6 +24,7 @@ import com.papb.eats.adapter.RecyclerAdapter
 import com.papb.eats.fragments.ReminderFragment
 import com.papb.eats.fragments.SetingsFragment
 import com.papb.eats.model.Reminder
+import com.papb.eats.notification.NotificationReceiver
 import com.papb.eats.notification.ReminderBroadcast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
@@ -149,33 +150,25 @@ class MainActivity : AppCompatActivity() {
             val dbHelper = DBHelper(this)
 
 
+//            for (item in reminders) {
+//                if (item.time == currentTime) {
+//                    if (item.completed == 0) {
+//                        sendNotification(item.title)
+//                        dbHelper.updateComplete(item.id, 1)
+//                        supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commitAllowingStateLoss()
+//                    }
+//                }
+//            }
+
             for (item in reminders) {
-                if (item.time == currentTime) {
-                    if (item.completed == 0) {
-                        sendNotification(item.title)
-                        dbHelper.updateComplete(item.id, 1)
-                        supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commitAllowingStateLoss()
-                    }
+                if (item.completed == 0) {
+                    setNotification(item, reminders.indexOf(item))
                 }
             }
+            supportFragmentManager.beginTransaction().detach(reminderFragment).attach(reminderFragment).commitAllowingStateLoss()
 
         }.also { runnable = it }, delay.toLong())
         super.onResume()
-    }
-
-    override fun onDestroy() {
-        val broadcastIntent = Intent()
-            .setAction("restartservice")
-            .setClass(this,ReminderService::class.java)
-        this.sendBroadcast(broadcastIntent)
-        super.onDestroy()
-    }
-
-    @Suppress("DEPRECATION")
-    fun <T> Context.isServiceRunning(service: Class<T>): Boolean {
-        return (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
-            .getRunningServices(Integer.MAX_VALUE)
-            .any { it -> it.service.className == service.name }
     }
 
     private fun createNotificationChannel() {
@@ -274,4 +267,45 @@ class MainActivity : AppCompatActivity() {
         return timeInMillis
     }
 
+    private fun setNotification(reminder: Reminder, code: Int) {
+        val dbHelper = DBHelper(this)
+
+        val intent = Intent(this, NotificationReceiver::class.java)
+        intent.putExtra("title", reminder.title)
+        val pendingIntent = PendingIntent.getBroadcast(this,code,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val timeInMillis = System.currentTimeMillis()+timeDifference(reminder.time)
+        alarmManager.set(AlarmManager.RTC_WAKEUP,timeInMillis,pendingIntent)
+        dbHelper.updateComplete(reminder.id,1)
+
+    }
+
+    fun timeDifference(time: String): Long {
+        val timeFormat = SimpleDateFormat("HH:mm")
+        val currentTime = timeFormat.format(Date())
+        var currentHour = currentTime.substring(0,2).toInt()
+        var currentMinute = currentTime.substring(3,5).toInt()
+
+        var timeHour = time.substring(0,2).toInt()
+        var timeMinute = time.substring(3,5).toInt()
+
+        var hour = 0
+        var minute = 0
+
+        if (timeHour<currentHour) {
+            timeHour += 24
+        }
+
+        if (timeMinute<currentMinute){
+            timeHour -= 1
+            timeMinute += 60
+
+        }
+        minute = timeMinute-currentMinute
+        hour = timeHour-currentHour
+
+        val totalMinutes = hour*60 + minute
+
+        return totalMinutes.toLong()*60000
+    }
 }

@@ -56,6 +56,7 @@
         </activity>
 
         <receiver android:name=".notification.ReminderBroadcast"/>
+        <receiver android:name=".notification.NotificationReceiver" />
     </application>
 
 </manifest>
