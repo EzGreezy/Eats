@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Eats!</string>
+    <string name="delete">Hapus</string>
+    <string name="remind_me_to_eat">Ingatkan saya untuk makan...</string>
+    <string name="save">Simpan</string>
+    <string name="reminder">Pengingat</string>
+    <string name="settings">Pengaturan</string>
+    <string name="select_time">Pilih waktu</string>
+    <string name="fill_title">Isi nama makanan</string>
+    <string name="cancel">Batal</string>
+    <string name="confirmation">Apakah Anda yakin?</string>
+    <string name="no">Tidak</string>
+    <string name="yes">Ya</string>
+    <string name="don_t_forget_to_eat">Jangan lupa makan ya :)</string>
+    <string name="find_resto">Mau cari resto atau order makanan sekarang?</string>
+    <string name="open_gmaps">Buka Google Maps</string>
+    <string name="appwidget_text">contoh</string>
+    <string name="language">Bahasa</string>
+    <string name="change_the_language">Ganti bahasa</string>
+    <string name="notification_sound">Suara notifikasi</string>
+    <string name="configure_the_notification_sound">Ubah suara notifikasi</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="selfcook">Saya masak sendiri</string>
+    <string name="don_t_forget_to_eat2">Jangan lupa makan</string>
+</resources>

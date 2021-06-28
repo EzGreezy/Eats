@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Eats!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="remind_me_to_eat">Remind me to eat...</string>
+    <string name="save">Save</string>
+    <string name="reminder">Reminders</string>
+    <string name="settings">Settings</string>
+    <string name="select_time">Select time</string>
+    <string name="fill_title">Fill title</string>
+    <string name="confirmation">Are you sure?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="don_t_forget_to_eat">Don\'t forget to eat :)</string>
+    <string name="don_t_forget_to_eat2">Don\'t forget to eat</string>
+    <string name="find_resto">Do you want to search restaurant?</string>
+    <string name="open_gmaps">Open Google Maps</string>
+    <string name="appwidget_text">example</string>
+    <string name="language">Language</string>
+    <string name="change_the_language">Change the language</string>
+    <string name="notification_sound">Notification Sound</string>
+    <string name="configure_the_notification_sound">Configure the notification sound</string>
+    <string name="add_widget">Add widget</string>
+    <string name="selfcook">I\'ll cook myself</string>
+
+</resources>
